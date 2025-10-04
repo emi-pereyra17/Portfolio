@@ -30,6 +30,15 @@ export default function MenuScreen({ onSelect }) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [selected, options, onSelect]);
 
+  // Soporte para tap/click en móvil y desktop
+  const handleOptionSelect = (key) => {
+    if (key === "cv") {
+      window.open("/Currículum Vitae (Emiliano Pereyra).pdf", "_blank");
+    } else {
+      onSelect(key);
+    }
+  };
+
   return (
     <div
       style={{
@@ -160,7 +169,7 @@ export default function MenuScreen({ onSelect }) {
         style={{
           marginBottom: isMobile ? "14px" : "18px",
           fontFamily: "'Press Start 2P', cursive",
-          fontSize: isMobile ? "11px" : "15px", // más pequeño
+          fontSize: isMobile ? "11px" : "15px",
           color: "#ffd700",
           textShadow: "2px 2px 0 #222, 0 0 8px #00e0ff",
           letterSpacing: "2px",
@@ -174,6 +183,10 @@ export default function MenuScreen({ onSelect }) {
         }}
       >
         Usa las flechas del teclado para navegar y Enter para seleccionar
+        <br />
+        <span style={{ fontSize: isMobile ? "10px" : "13px", color: "#fff" }}>
+          (O toca una opción en celular)
+        </span>
       </div>
       <div
         style={{
@@ -209,11 +222,15 @@ export default function MenuScreen({ onSelect }) {
               minWidth: isMobile ? "110px" : "160px",
               justifyContent: "flex-start",
               position: "relative",
-              outline: "none", // sin borde de foco
+              outline: "none",
               imageRendering: "pixelated",
-              cursor: "default",
+              cursor: "pointer", 
               userSelect: "none",
+              transition: "background 0.2s, color 0.2s",
             }}
+            tabIndex={0}
+            onClick={() => handleOptionSelect(opt.key)}
+            onTouchStart={() => handleOptionSelect(opt.key)}
           >
             <span
               style={{
