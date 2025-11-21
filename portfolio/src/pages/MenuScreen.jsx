@@ -20,7 +20,7 @@ export default function MenuScreen({ onSelect }) {
         setSelected((prev) => (prev - 1 + options.length) % options.length);
       } else if (e.key === "Enter") {
         if (options[selected].key === "cv") {
-          window.open("/Currículum Vitae (Emiliano Pereyra).pdf", "_blank");
+          window.open("/Curriculum Vitae (Emiliano Pereyra).pdf", "_blank");
         } else {
           onSelect(options[selected].key);
         }

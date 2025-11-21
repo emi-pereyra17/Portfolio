@@ -7,7 +7,7 @@ import SobreMiScreen from "./pages/SobreMiScreen";
 import ContactoScreen from "./pages/ContactoScreen";
 
 export default function App() {
-  const [screen, setScreen] = useState("start"); // <--- empieza en StartScreen
+  const [screen, setScreen] = useState("start"); 
 
   return (
     <AnimatePresence mode="wait">
@@ -33,7 +33,9 @@ export default function App() {
         </motion.div>
       )}
 
-      {screen === "proyectos" && <ProyectosScreen />}
+      {screen === "proyectos" && (
+        <ProyectosScreen onBackToMenu={() => setScreen("menu")} />
+      )}
       {screen === "sobreMi" && (
         <SobreMiScreen onBackToMenu={() => setScreen("menu")} />
       )}

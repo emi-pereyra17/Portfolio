@@ -28,6 +28,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  font-family: 'Inter', 'Avenir', 'Segoe UI', Arial, sans-serif;
 }
 
 h1 {
@@ -67,5 +68,13 @@ button:focus-visible {
   }
 }
 html, body {
-  overflow: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
+}
+body::-webkit-scrollbar, html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
