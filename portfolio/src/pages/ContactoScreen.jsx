@@ -1,38 +1,49 @@
 import { motion } from "framer-motion";
 import emailjs from "emailjs-com";
 import { useRef, useState } from "react";
+import { useIsMobile } from "../hooks/useIsMobile";
 
 export default function ContactoScreen({ onBackToMenu }) {
-  const isMobile = window.innerWidth < 600;
+  const isMobile = useIsMobile();
   const formRef = useRef();
   const [enviado, setEnviado] = useState(false);
+  const [enviando, setEnviando] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    emailjs
-      .sendForm(
+    setEnviando(true);
+    try {
+      await emailjs.sendForm(
         "service_y7u5aaf", // Tu Service ID
         "template_n02i32r", // Tu Template ID
         formRef.current,
         "ARPqUYluLOnBKKQY9" // Tu Public Key
-      )
-      .then(() => setEnviado(true))
-      .catch((error) => alert("Error al enviar: " + error.text));
+      );
+      setEnviado(true);
+    } catch (error) {
+      alert("Error al enviar: " + error.text);
+    } finally {
+      setEnviando(false);
+    }
   };
+
   return (
     <div
       style={{
         width: "100vw",
-        height: "100vh",
+        maxWidth: "100%",
+        minHeight: "100dvh",
+        height: "100%",
         position: "relative",
-        overflow: "hidden",
-        background: "#222831",
+        overflow: "auto",
+        background: "#111827",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        padding: isMobile ? "68px 12px 28px" : "90px 24px 36px",
+        boxSizing: "border-box",
       }}
     >
-      {/* Fondo con imagen desenfocada */}
       <motion.div
         style={{
           position: "fixed",
@@ -45,36 +56,35 @@ export default function ContactoScreen({ onBackToMenu }) {
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           zIndex: 0,
-          filter: "blur(1.8px)",
+          filter: "blur(2px)",
         }}
       />
-      {/* Capa blanca animada */}
       <motion.div
         style={{
           position: "fixed",
           inset: 0,
           width: "100vw",
           height: "100vh",
-          background: "rgba(255,255,255,0.15)",
+          background:
+            "linear-gradient(180deg, rgba(17,24,39,0.56) 0%, rgba(17,24,39,0.8) 100%)",
           zIndex: 1,
           pointerEvents: "none",
         }}
-        animate={{ opacity: [0.1, 0.3, 0.1] }}
+        animate={{ opacity: [0.72, 0.82, 0.72] }}
         transition={{
-          duration: 12,
+          duration: 10,
           repeat: Infinity,
           repeatType: "loop",
           ease: "easeInOut",
         }}
       />
-      {/* Nubes animadas */}
       <motion.img
         src="/cloud3.png"
         alt="Nube"
         style={{
           position: "absolute",
           top: "5%",
-          width: isMobile ? "22px" : "35px",
+          width: isMobile ? "20px" : "34px",
           pointerEvents: "none",
           zIndex: 2,
           opacity: 0.6,
@@ -83,7 +93,7 @@ export default function ContactoScreen({ onBackToMenu }) {
         initial={{ left: "-30%" }}
         animate={{ left: ["-30%", "90%"] }}
         transition={{
-          duration: 80,
+          duration: 95,
           repeat: Infinity,
           repeatType: "loop",
           ease: "linear",
@@ -95,7 +105,7 @@ export default function ContactoScreen({ onBackToMenu }) {
         style={{
           position: "absolute",
           top: "12%",
-          width: isMobile ? "40px" : "70px",
+          width: isMobile ? "30px" : "52px",
           pointerEvents: "none",
           zIndex: 2,
           opacity: 0.85,
@@ -104,89 +114,26 @@ export default function ContactoScreen({ onBackToMenu }) {
         initial={{ left: "-15%" }}
         animate={{ left: ["-15%", "105%"] }}
         transition={{
-          duration: 50,
-          repeat: Infinity,
-          repeatType: "loop",
-          ease: "linear",
-        }}
-      />
-      <motion.img
-        src="/cloud2.png"
-        alt="Nube"
-        style={{
-          position: "absolute",
-          top: "18%",
-          width: isMobile ? "30px" : "50px",
-          pointerEvents: "none",
-          zIndex: 2,
-          opacity: 0.7,
-          filter: "drop-shadow(0 0 8px #fff)",
-        }}
-        initial={{ left: "10%" }}
-        animate={{ left: ["10%", "110%"] }}
-        transition={{
-          duration: 160,
-          repeat: Infinity,
-          repeatType: "loop",
-          ease: "linear",
-        }}
-      />
-      <motion.img
-        src="/cloud3.png"
-        alt="Nube"
-        style={{
-          position: "absolute",
-          top: "8%",
-          width: isMobile ? "25px" : "40px",
-          pointerEvents: "none",
-          zIndex: 2,
-          opacity: 0.6,
-          filter: "drop-shadow(0 0 8px #fff)",
-        }}
-        initial={{ left: "50%" }}
-        animate={{ left: ["50%", "120%"] }}
-        transition={{
           duration: 70,
           repeat: Infinity,
           repeatType: "loop",
           ease: "linear",
         }}
       />
-      <motion.img
-        src="/cloud1.png"
-        alt="Nube"
-        style={{
-          position: "absolute",
-          top: "26%",
-          width: isMobile ? "22px" : "35px",
-          pointerEvents: "none",
-          zIndex: 2,
-          opacity: 0.5,
-          filter: "drop-shadow(0 0 8px #fff)",
-        }}
-        initial={{ left: "80%" }}
-        animate={{ left: ["80%", "130%"] }}
-        transition={{
-          duration: 50,
-          repeat: Infinity,
-          repeatType: "loop",
-          ease: "linear",
-        }}
-      />
-      {/* Botón volver al menú */}
+
       <motion.button
         onClick={onBackToMenu}
         style={{
           position: "fixed",
-          top: isMobile ? "10px" : "24px",
-          left: isMobile ? "10px" : "32px",
+          top: `max(${isMobile ? "10px" : "24px"}, env(safe-area-inset-top))`,
+          left: `max(${isMobile ? "10px" : "32px"}, env(safe-area-inset-left))`,
           background: "#222831",
           color: "#00e0ff",
           border: "2px solid #00e0ff",
-          borderRadius: "0",
+          borderRadius: "10px",
           fontFamily: "'Press Start 2P', cursive",
-          fontSize: isMobile ? "8px" : "8px",
-          padding: isMobile ? "4px 10px" : "8px 16px",
+          fontSize: "8px",
+          padding: isMobile ? "6px 10px" : "8px 16px",
           cursor: "pointer",
           zIndex: 20,
           fontWeight: "bold",
@@ -201,106 +148,131 @@ export default function ContactoScreen({ onBackToMenu }) {
       >
         ← MENU
       </motion.button>
-      {/* Formulario */}
-      <div
+
+      <motion.div
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
         style={{
           position: "relative",
           zIndex: 3,
-          background: "rgba(34, 40, 49, 0.7)",
-          borderRadius: "12px",
-          padding: isMobile ? "18px 6px" : "32px 48px",
-          maxWidth: isMobile ? "98vw" : "500px",
+          background:
+            "linear-gradient(180deg, rgba(31,41,55,0.6) 0%, rgba(17,24,39,0.66) 100%)",
+          borderRadius: "18px",
+          padding: isMobile ? "20px 14px" : "30px 30px",
+          maxWidth: isMobile ? "calc(100vw - 24px)" : "760px",
           width: "100%",
           color: "#fff",
-          boxShadow: "0 0 16px #222",
-          textAlign: "center",
+          boxShadow: "0 18px 40px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.06)",
+          textAlign: "left",
           boxSizing: "border-box",
-          fontFamily: "'Press Start 2P', cursive",
+          fontFamily: "'Segoe UI', 'Inter', sans-serif",
+          border: "1px solid rgba(0,224,255,0.25)",
         }}
       >
         <h1
           style={{
-            fontSize: isMobile ? "16px" : "32px",
+            fontSize: isMobile ? "22px" : "30px",
             color: "#00e0ff",
             textShadow: "2px 2px 0 #222, 0 0 8px #fff",
-            marginBottom: "18px",
+            marginBottom: "8px",
             userSelect: "none",
+            fontFamily: "'Press Start 2P', cursive",
+            textAlign: "center",
           }}
         >
           Contacto
         </h1>
+        <p
+          style={{
+            margin: "0 0 20px",
+            fontSize: isMobile ? "13px" : "15px",
+            color: "#d1ecff",
+            lineHeight: 1.55,
+            textAlign: "center",
+          }}
+        >
+          ¿Tenés una propuesta o idea para construir juntos? Enviame un mensaje y
+          te respondo a la brevedad.
+        </p>
         {enviado ? (
           <p
             style={{
               color: "#00e0ff",
               fontFamily: "'Press Start 2P', cursive",
+              textAlign: "center",
+              fontSize: isMobile ? "11px" : "13px",
+              background: "rgba(16,185,129,0.12)",
+              border: "1px solid rgba(16,185,129,0.4)",
+              borderRadius: "10px",
+              padding: "14px 12px",
             }}
           >
             ¡Mensaje enviado! Te responderé pronto.
           </p>
         ) : (
           <form ref={formRef} onSubmit={handleSubmit}>
-            <div style={{ marginBottom: "18px", textAlign: "left" }}>
+            <div style={{ marginBottom: "16px", textAlign: "left" }}>
               <label
                 htmlFor="nombre"
                 style={{
-                  fontSize: isMobile ? "10px" : "14px",
+                  fontSize: isMobile ? "12px" : "14px",
                   color: "#ffd700",
-                  textShadow: "1px 1px 0 #222",
                   marginBottom: "6px",
                   display: "block",
+                  fontWeight: 600,
                 }}
               >
                 Nombre:
               </label>
               <input
                 id="nombre"
-                name="nombre" // <-- IMPORTANTE
+                name="nombre"
                 type="text"
                 style={{
                   width: "100%",
-                  padding: "8px",
-                  fontFamily: "'Press Start 2P', cursive",
-                  fontSize: isMobile ? "10px" : "14px",
-                  border: "2px solid #00e0ff",
-                  borderRadius: "0",
-                  background: "#393e46",
+                  padding: isMobile ? "10px 12px" : "12px 14px",
+                  boxSizing: "border-box",
+                  fontFamily: "'Segoe UI', 'Inter', sans-serif",
+                  fontSize: isMobile ? "13px" : "15px",
+                  border: "1px solid rgba(0,224,255,0.45)",
+                  borderRadius: "10px",
+                  background: "rgba(17,24,39,0.78)",
                   color: "#fff",
                   outline: "none",
-                  boxShadow: "0 0 4px #00e0ff",
                 }}
                 autoComplete="off"
                 required
               />
             </div>
-            <div style={{ marginBottom: "18px", textAlign: "left" }}>
+            <div style={{ marginBottom: "16px", textAlign: "left" }}>
               <label
                 htmlFor="email"
                 style={{
-                  fontSize: isMobile ? "10px" : "14px",
+                  fontSize: isMobile ? "12px" : "14px",
                   color: "#ffd700",
-                  textShadow: "1px 1px 0 #222",
                   marginBottom: "6px",
                   display: "block",
+                  fontWeight: 600,
                 }}
               >
                 Email:
               </label>
               <input
                 id="email"
-                name="email" // <-- IMPORTANTE
+                name="email"
                 type="email"
                 style={{
                   width: "100%",
-                  padding: "8px",
-                  fontFamily: "'Press Start 2P', cursive",
-                  fontSize: isMobile ? "10px" : "14px",
-                  border: "2px solid #00e0ff",
-                  borderRadius: "0",
-                  background: "#393e46",
+                  padding: isMobile ? "10px 12px" : "12px 14px",
+                  boxSizing: "border-box",
+                  fontFamily: "'Segoe UI', 'Inter', sans-serif",
+                  fontSize: isMobile ? "13px" : "15px",
+                  border: "1px solid rgba(0,224,255,0.45)",
+                  borderRadius: "10px",
+                  background: "rgba(17,24,39,0.78)",
                   color: "#fff",
                   outline: "none",
-                  boxShadow: "0 0 4px #00e0ff",
                 }}
                 autoComplete="off"
                 required
@@ -310,57 +282,63 @@ export default function ContactoScreen({ onBackToMenu }) {
               <label
                 htmlFor="mensaje"
                 style={{
-                  fontSize: isMobile ? "10px" : "14px",
+                  fontSize: isMobile ? "12px" : "14px",
                   color: "#ffd700",
-                  textShadow: "1px 1px 0 #222",
                   marginBottom: "6px",
                   display: "block",
+                  fontWeight: 600,
                 }}
               >
                 Mensaje:
               </label>
               <textarea
                 id="mensaje"
-                name="mensaje" // <-- IMPORTANTE
+                name="mensaje"
                 rows={isMobile ? 3 : 5}
                 style={{
                   width: "100%",
-                  padding: "8px",
-                  fontFamily: "'Press Start 2P', cursive",
-                  fontSize: isMobile ? "10px" : "14px",
-                  border: "2px solid #00e0ff",
-                  borderRadius: "0",
-                  background: "#393e46",
+                  padding: isMobile ? "10px 12px" : "12px 14px",
+                  boxSizing: "border-box",
+                  fontFamily: "'Segoe UI', 'Inter', sans-serif",
+                  fontSize: isMobile ? "13px" : "15px",
+                  border: "1px solid rgba(0,224,255,0.45)",
+                  borderRadius: "10px",
+                  background: "rgba(17,24,39,0.78)",
                   color: "#fff",
                   outline: "none",
-                  boxShadow: "0 0 4px #00e0ff",
                   resize: "vertical",
+                  minHeight: isMobile ? "110px" : "140px",
                 }}
                 required
               />
             </div>
-            <button
-              type="submit"
-              style={{
-                background: "#00e0ff",
-                color: "#222831",
-                border: "2px solid #ffd700",
-                borderRadius: "0",
-                fontFamily: "'Press Start 2P', cursive",
-                fontSize: isMobile ? "10px" : "14px",
-                padding: isMobile ? "6px 12px" : "10px 24px",
-                cursor: "pointer",
-                fontWeight: "bold",
-                letterSpacing: "2px",
-                boxShadow: "0 0 8px #00e0ff",
-                transition: "background 0.2s, color 0.2s",
-              }}
-            >
-              ENVIAR
-            </button>
+
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <button
+                type="submit"
+                disabled={enviando}
+                style={{
+                  background: enviando ? "#6b7280" : "#00e0ff",
+                  color: "#111827",
+                  border: "2px solid #ffd700",
+                  borderRadius: "10px",
+                  fontFamily: "'Press Start 2P', cursive",
+                  fontSize: isMobile ? "10px" : "12px",
+                  padding: isMobile ? "10px 14px" : "12px 22px",
+                  cursor: enviando ? "not-allowed" : "pointer",
+                  fontWeight: "bold",
+                  letterSpacing: "1.5px",
+                  boxShadow: "0 0 8px #00e0ff",
+                  transition: "background 0.2s, color 0.2s",
+                  minWidth: isMobile ? "180px" : "220px",
+                }}
+              >
+                {enviando ? "ENVIANDO..." : "ENVIAR MENSAJE"}
+              </button>
+            </div>
           </form>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }

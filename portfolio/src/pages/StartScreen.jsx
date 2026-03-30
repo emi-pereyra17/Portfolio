@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
+import { useIsMobile } from "../hooks/useIsMobile";
 
 export default function StartScreen({ onStart }) {
+  const isMobile = useIsMobile();
+
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (e.key === "Enter") {
@@ -12,14 +15,13 @@ export default function StartScreen({ onStart }) {
     return () => window.removeEventListener("keydown", handleKeyPress);
   }, [onStart]);
 
-  // Estilos base
   const baseStyles = {
     h1: {
       fontFamily: "'Press Start 2P', cursive",
-      fontSize: "38px",
+      fontSize: isMobile ? "22px" : "38px",
       color: "#ffffff",
       background: "rgba(34, 40, 49, 0.85)",
-      padding: "12px 32px",
+      padding: isMobile ? "8px 10px" : "12px 32px",
       borderRadius: "12px",
       textShadow: "2px 2px 0 #00e0ff, 0 0 8px #222",
       marginBottom: "18px",
@@ -29,18 +31,18 @@ export default function StartScreen({ onStart }) {
     },
     h2: {
       fontFamily: "'Press Start 2P', cursive",
-      fontSize: "18px",
+      fontSize: isMobile ? "13px" : "18px",
       color: "#00e0ff",
       textShadow: "1px 1px 0 #222, 0 0 6px #fff",
-      marginBottom: "60px",
+      marginBottom: isMobile ? "32px" : "60px",
       textAlign: "center",
       maxWidth: "90vw",
       wordBreak: "break-word",
     },
     button: {
       fontFamily: "'Press Start 2P', cursive",
-      fontSize: "16px",
-      padding: "10px 22px",
+      fontSize: isMobile ? "12px" : "16px",
+      padding: isMobile ? "8px 10px" : "10px 22px",
       color: "#ffffff",
       background: "#222831",
       border: "2px solid #00e0ff",
@@ -54,7 +56,7 @@ export default function StartScreen({ onStart }) {
     },
     p: {
       fontFamily: "'Press Start 2P', cursive",
-      fontSize: "12px",
+      fontSize: isMobile ? "9px" : "12px",
       color: "#ffffff",
       marginTop: "18px",
       textShadow: "1px 1px 0 #00e0ff",
@@ -63,23 +65,12 @@ export default function StartScreen({ onStart }) {
     },
   };
 
-  // Media query para celulares
-  const isMobile = window.innerWidth < 600;
-  if (isMobile) {
-    baseStyles.h1.fontSize = "22px";
-    baseStyles.h1.padding = "8px 10px";
-    baseStyles.h2.fontSize = "13px";
-    baseStyles.h2.marginBottom = "32px";
-    baseStyles.button.fontSize = "12px";
-    baseStyles.button.padding = "8px 10px";
-    baseStyles.p.fontSize = "9px";
-  }
-
   return (
     <div
       style={{
         width: "100vw",
-        height: "100vh",
+        height: "100dvh",
+        minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -94,7 +85,8 @@ export default function StartScreen({ onStart }) {
           position: "absolute",
           inset: 0,
           width: "100vw",
-          height: "100vh",
+          height: "100dvh",
+          minHeight: "100vh",
           backgroundImage: "url('/fondoStart.png')",
           backgroundSize: "cover",
           backgroundPosition: "center",

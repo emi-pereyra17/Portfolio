@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useIsMobile } from "../hooks/useIsMobile";
 
 export default function MenuScreen({ onSelect }) {
   const options = [
@@ -9,7 +10,7 @@ export default function MenuScreen({ onSelect }) {
     { label: "Descargar CV", key: "cv" },
   ];
 
-  const isMobile = window.innerWidth < 600;
+  const isMobile = useIsMobile();
   const [selected, setSelected] = useState(0);
 
   useEffect(() => {
@@ -46,8 +47,10 @@ export default function MenuScreen({ onSelect }) {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        height: "100vh",
+        height: "100dvh",
+        minHeight: "100vh",
         width: "100vw",
+        maxWidth: "100%",
         background: "black",
         backgroundImage: "url('/FondoExtra.png')",
         backgroundSize: "cover",
