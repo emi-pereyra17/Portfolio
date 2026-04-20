@@ -2,10 +2,25 @@ import { useEffect, useRef, useState } from "react";
 import ProyectoDetalle from "./ProyectoDetalle";
 import { useIsMobile } from "../hooks/useIsMobile";
 
+const NARROW_MAX_PX = 960;
+
 export default function ProyectosScreen({ onBackToMenu }) {
   const isMobile = useIsMobile();
+  const [isNarrowViewport, setIsNarrowViewport] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia(`(max-width: ${NARROW_MAX_PX}px)`).matches
+      : false
+  );
   const [selected, setSelected] = useState(null);
   const containerRef = useRef(null);
+
+  useEffect(() => {
+    const mql = window.matchMedia(`(max-width: ${NARROW_MAX_PX}px)`);
+    const handler = (e) => setIsNarrowViewport(e.matches);
+    setIsNarrowViewport(mql.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
 
   useEffect(() => {
     if (containerRef.current) {
@@ -201,7 +216,16 @@ export default function ProyectosScreen({ onBackToMenu }) {
       ref={containerRef}
       style={{
         minHeight: "100dvh",
-        width: "100vw",
+        width: "100%",
+        maxWidth: "100%",
+        minWidth: 0,
+        boxSizing: "border-box",
+        paddingLeft: isNarrowViewport
+          ? "max(12px, env(safe-area-inset-left, 0px))"
+          : undefined,
+        paddingRight: isNarrowViewport
+          ? "max(12px, env(safe-area-inset-right, 0px))"
+          : undefined,
         background: "black",
         backgroundImage: "url('/fondoMenu.png')",
         backgroundSize: selected ? "contain" : "cover",
@@ -248,7 +272,7 @@ export default function ProyectosScreen({ onBackToMenu }) {
             padding: isMobile ? "18px 12px" : "34px 36px",
             maxWidth: "1040px",
             width: "100%",
-            margin: isMobile ? "84px 12px 40px" : "120px auto 40px",
+            margin: `${isMobile ? 84 : 120}px auto 40px`,
             color: "#fff",
             textAlign: "center",
             fontFamily: "'Press Start 2P', cursive",
