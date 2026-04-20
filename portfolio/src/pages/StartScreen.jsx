@@ -1,19 +1,48 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useIsMobile } from "../hooks/useIsMobile";
 
-export default function StartScreen({ onStart }) {
+const START_SFX_DELAY_MS = 2000;
+
+export default function StartScreen({
+  onStart,
+  onResumeBgm,
+  onDuckBgmDuringStart,
+}) {
   const isMobile = useIsMobile();
+  const isStartingRef = useRef(false);
+  const startTimerRef = useRef(null);
+
+  const handleStart = useCallback(() => {
+    if (isStartingRef.current) return;
+    isStartingRef.current = true;
+    onResumeBgm?.();
+    onDuckBgmDuringStart?.(START_SFX_DELAY_MS);
+    const sfx = new Audio("/start.mp3");
+    sfx.volume = 0.35;
+    sfx.play().catch(() => {});
+    if (startTimerRef.current) clearTimeout(startTimerRef.current);
+    startTimerRef.current = setTimeout(() => {
+      startTimerRef.current = null;
+      onStart();
+    }, START_SFX_DELAY_MS);
+  }, [onStart, onResumeBgm, onDuckBgmDuringStart]);
+
+  useEffect(() => {
+    return () => {
+      if (startTimerRef.current) clearTimeout(startTimerRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (e.key === "Enter") {
-        onStart();
+        handleStart();
       }
     };
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [onStart]);
+  }, [handleStart]);
 
   const baseStyles = {
     h1: {
@@ -209,11 +238,42 @@ export default function StartScreen({ onStart }) {
         }}
       />
       <h1 style={{ ...baseStyles.h1, zIndex: 2, userSelect: "none", }}>Emiliano Pereyra</h1>
-      <h2 style={{ ...baseStyles.h2, zIndex: 2, userSelect: "none", }}>Desarrollador FullStack</h2>
+      <h2
+        style={{
+          ...baseStyles.h2,
+          zIndex: 2,
+          userSelect: "none",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: isMobile ? "6px" : "10px",
+        }}
+      >
+        <span>Integrador de IA y automatizaciones</span>
+        <span
+          style={{
+            fontSize: isMobile ? "12px" : "16px",
+            color: "#ffffff",
+            textShadow: "1px 1px 0 #222, 0 0 6px #00e0ff",
+            lineHeight: 1.2,
+          }}
+        >
+          &
+        </span>
+        <span
+          style={{
+            fontSize: isMobile ? "11px" : "15px",
+            color: "#ffd700",
+            textShadow: "1px 1px 0 #222, 0 0 6px #fff",
+          }}
+        >
+          Desarrollador full stack
+        </span>
+      </h2>
       <motion.button
         animate={{ opacity: [1, 0.5, 1] }}
         transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
-        onClick={onStart}
+        onClick={handleStart}
         style={{ ...baseStyles.button, zIndex: 2 }}
       >
         PRESS START

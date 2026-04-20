@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
 import ProyectoDetalle from "./ProyectoDetalle";
 import { useIsMobile } from "../hooks/useIsMobile";
 
@@ -18,7 +17,7 @@ export default function ProyectosScreen({ onBackToMenu }) {
     {
       key: "bichtec",
       nombre: "BICHTEC - Tienda virtual de dispositivos electrónicos",
-      imagen: "/Home.png",
+      imagen: "/tienda.jpg",
       descripcion: (
         <>
           <p
@@ -90,12 +89,24 @@ export default function ProyectosScreen({ onBackToMenu }) {
         </>
       ),
       repo: "https://github.com/emi-pereyra17/BICTECH-Tienda-Virtual",
-      imagenes: ["/Home.png", "/Productos.png", "/Login.png", "/Carrito.png", "/panel.png", "/pedidos.png", "/Aboutus.png", "/prod.png", "/users.png", "/productosAdmin.png"],
+      imagenes: [
+        "/tienda.jpg",
+        "/Home.png",
+        "/Productos.png",
+        "/Login.png",
+        "/Carrito.png",
+        "/panel.png",
+        "/pedidos.png",
+        "/Aboutus.png",
+        "/prod.png",
+        "/users.png",
+        "/productosAdmin.png",
+      ],
     },
     {
       key: "auditor",
       nombre: "Auditor Fiscal IA - Auditoría contable con IA",
-      imagen: "/Auditor.mp4",
+      imagen: "/contabilidad-basica.jpg",
       descripcion: (
         <>
           <p style={{ marginBottom: 16, fontSize: isMobile ? 17 : 22, lineHeight: 1.7, color: "#e0e0e0", textShadow: "1px 1px 2px #111, 0 0 6px #00e0ff44", fontFamily: "'Segoe UI', 'Press Start 2P', cursive", letterSpacing: "0.5px" }}>
@@ -121,7 +132,7 @@ export default function ProyectosScreen({ onBackToMenu }) {
     {
       key: "linkmatch",
       nombre: "LinkMatch AI - Extensión Chrome para matching CV con ofertas",
-      imagen: "/LinkMatch.mp4",
+      imagen: "/linkedin.jpg",
       descripcion: (
         <>
           <p style={{ marginBottom: 16, fontSize: isMobile ? 17 : 22, lineHeight: 1.7, color: "#e0e0e0", textShadow: "1px 1px 2px #111, 0 0 6px #00e0ff44", fontFamily: "'Segoe UI', 'Press Start 2P', cursive", letterSpacing: "0.5px" }}>
@@ -146,7 +157,7 @@ export default function ProyectosScreen({ onBackToMenu }) {
     {
       key: "hoteleria",
       nombre: "Sistema de Inteligencia de Precios y Ocupación Hotelera",
-      imagen: "/proyectoHotelero.png",
+      imagen: "/hotel.avif",
       descripcion: (
         <>
           <p style={{ marginBottom: 16, fontSize: isMobile ? 17 : 22, lineHeight: 1.7, color: "#e0e0e0", textShadow: "1px 1px 2px #111, 0 0 6px #00e0ff44", fontFamily: "'Segoe UI', 'Press Start 2P', cursive", letterSpacing: "0.5px" }}>
@@ -203,7 +214,8 @@ export default function ProyectosScreen({ onBackToMenu }) {
     >
       {/* Botón volver */}
       {!selected && (
-        <motion.button
+        <button
+          type="button"
           onClick={onBackToMenu}
           style={{
             position: "fixed",
@@ -222,14 +234,9 @@ export default function ProyectosScreen({ onBackToMenu }) {
             letterSpacing: "2px",
             userSelect: "none",
           }}
-          whileHover={{
-            backgroundColor: "#00e0ff",
-            color: "#222831",
-            borderColor: "#ffd700",
-          }}
         >
           ← MENU
-        </motion.button>
+        </button>
       )}
 
       {/* Menú */}
@@ -248,7 +255,6 @@ export default function ProyectosScreen({ onBackToMenu }) {
             boxSizing: "border-box",
             border: "1px solid rgba(0,224,255,0.35)",
             boxShadow: "0 12px 36px rgba(0,0,0,0.45), 0 0 20px rgba(0,224,255,0.12)",
-            backdropFilter: "blur(3px)",
           }}
         >
           <h1
@@ -286,6 +292,14 @@ export default function ProyectosScreen({ onBackToMenu }) {
               <div
                 key={proy.key}
                 onClick={() => setSelected(proy)}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = "#ffd700";
+                  e.currentTarget.style.transform = "translateY(-3px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = "rgba(0,224,255,0.75)";
+                  e.currentTarget.style.transform = "translateY(0)";
+                }}
                 style={{
                   cursor: "pointer",
                   background: "linear-gradient(145deg, #232526 0%, #3a3f46 100%)",
@@ -298,33 +312,12 @@ export default function ProyectosScreen({ onBackToMenu }) {
                   position: "relative",
                   overflow: "hidden",
                   outline: "none",
-                  filter: "drop-shadow(0 0 4px #00e0ff44)",
-                  transition: "transform 0.18s, box-shadow 0.18s, border-color 0.18s",
                   width: "100%",
                   maxWidth: "100%",
                   margin: "0 auto",
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.transform = "scale(1.04)";
-                  e.currentTarget.style.boxShadow = "0 8px 32px #00e0ff99, 0 2px 12px #111b";
-                  e.currentTarget.style.borderColor = "#ffd700";
-                  const video = e.currentTarget.querySelector("video");
-                  if (video) {
-                    const playPromise = video.play();
-                    if (playPromise && typeof playPromise.catch === "function") {
-                      playPromise.catch(() => {});
-                    }
-                  }
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.transform = "scale(1)";
-                  e.currentTarget.style.boxShadow = "0 4px 24px #00e0ff55, 0 1.5px 8px #111a";
-                  e.currentTarget.style.borderColor = "#00e0ff";
-                  const video = e.currentTarget.querySelector("video");
-                  if (video) {
-                    video.pause();
-                    video.currentTime = 0;
-                  }
+                  transform: "translateY(0)",
+                  transition:
+                    "border-color 0.14s ease-out, transform 0.14s ease-out",
                 }}
               >
                 {/\.(mp4|webm)$/i.test(proy.imagen) ? (
@@ -344,11 +337,9 @@ export default function ProyectosScreen({ onBackToMenu }) {
                       boxShadow: "0 0 12px #ffd70055",
                       marginBottom: isMobile ? "14px" : "10px",
                       background: "#181818",
-                      transition: "box-shadow 0.18s, border-color 0.18s",
                       display: "block",
                       marginLeft: "auto",
                       marginRight: "auto",
-                      willChange: "transform",
                     }}
                   />
                 ) : (
@@ -365,7 +356,6 @@ export default function ProyectosScreen({ onBackToMenu }) {
                       boxShadow: "0 0 12px #ffd70055",
                       marginBottom: isMobile ? "14px" : "10px",
                       background: "#181818",
-                      transition: "box-shadow 0.18s, border-color 0.18s",
                       display: "block",
                       marginLeft: "auto",
                       marginRight: "auto",

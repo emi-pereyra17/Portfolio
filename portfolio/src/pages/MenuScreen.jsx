@@ -1,6 +1,144 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useIsMobile } from "../hooks/useIsMobile";
+
+const PIXEL_BURST_COLORS = ["#00e0ff", "#ffd700", "#ffffff", "#b8ffc8"];
+const CONFIRM_ACTION_MS = 420;
+
+function playSfx(url, volume = 0.55) {
+  const a = new Audio(url);
+  a.volume = volume;
+  a.play().catch(() => {});
+}
+
+function PixelBurst({ isMobile }) {
+  const pixels = useMemo(
+    () =>
+      Array.from({ length: 10 }, (_, i) => {
+        const spread = isMobile ? 44 : 72;
+        return {
+          dx: (Math.random() - 0.5) * spread,
+          dy: -10 - Math.random() * 28,
+          size: 3 + (i % 3),
+          color: PIXEL_BURST_COLORS[i % PIXEL_BURST_COLORS.length],
+          delay: Math.random() * 0.06,
+          rot: (Math.random() - 0.5) * 90,
+        };
+      }),
+    [isMobile]
+  );
+
+  return (
+    <div
+      style={{
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+        width: 0,
+        height: 0,
+        pointerEvents: "none",
+        zIndex: 6,
+        overflow: "visible",
+      }}
+    >
+      {pixels.map((p, i) => (
+        <motion.div
+          key={i}
+          initial={{ x: 0, y: 0, opacity: 1, scale: 1, rotate: 0 }}
+          animate={{
+            x: p.dx,
+            y: p.dy,
+            opacity: 0,
+            scale: 0.2,
+            rotate: p.rot,
+          }}
+          transition={{
+            duration: 0.42,
+            delay: p.delay,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          style={{
+            position: "absolute",
+            left: 0,
+            top: 0,
+            width: p.size,
+            height: p.size,
+            marginLeft: -p.size / 2,
+            marginTop: -p.size / 2,
+            background: p.color,
+            imageRendering: "pixelated",
+            boxShadow: `0 0 ${Math.max(2, p.size)}px ${p.color}`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function ConfirmPixelExplosion({ isMobile }) {
+  const pixels = useMemo(() => {
+    const count = isMobile ? 22 : 32;
+    return Array.from({ length: count }, (_, i) => {
+      const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.35;
+      const dist =
+        (isMobile ? 72 : 110) + Math.random() * (isMobile ? 70 : 130);
+      return {
+        dx: Math.cos(angle) * dist,
+        dy: Math.sin(angle) * dist,
+        size: 4 + Math.floor(Math.random() * 5),
+        color: PIXEL_BURST_COLORS[i % PIXEL_BURST_COLORS.length],
+        delay: Math.random() * 0.05,
+        rot: (Math.random() - 0.5) * 180,
+      };
+    });
+  }, [isMobile]);
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        left: "50%",
+        top: "42%",
+        width: 0,
+        height: 0,
+        pointerEvents: "none",
+        zIndex: 20,
+        overflow: "visible",
+      }}
+    >
+      {pixels.map((p, i) => (
+        <motion.div
+          key={i}
+          initial={{ x: 0, y: 0, opacity: 1, scale: 1, rotate: 0 }}
+          animate={{
+            x: p.dx,
+            y: p.dy,
+            opacity: 0,
+            scale: 0.15,
+            rotate: p.rot,
+          }}
+          transition={{
+            duration: 0.58,
+            delay: p.delay,
+            ease: [0.15, 0.85, 0.35, 1],
+          }}
+          style={{
+            position: "absolute",
+            left: 0,
+            top: 0,
+            width: p.size,
+            height: p.size,
+            marginLeft: -p.size / 2,
+            marginTop: -p.size / 2,
+            background: p.color,
+            imageRendering: "pixelated",
+            boxShadow: `0 0 ${Math.max(3, p.size)}px ${p.color}`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 
 export default function MenuScreen({ onSelect }) {
   const options = [
@@ -12,32 +150,67 @@ export default function MenuScreen({ onSelect }) {
 
   const isMobile = useIsMobile();
   const [selected, setSelected] = useState(0);
+  const [burstKey, setBurstKey] = useState(0);
+  const [confirmBurstKey, setConfirmBurstKey] = useState(0);
+  const [confirmPunchKey, setConfirmPunchKey] = useState(null);
+  const prevSelectedRef = useRef(-1);
+  const isConfirmingRef = useRef(false);
+  const confirmTimerRef = useRef(null);
+
+  useEffect(() => {
+    if (prevSelectedRef.current !== selected) {
+      prevSelectedRef.current = selected;
+      setBurstKey((k) => k + 1);
+    }
+  }, [selected]);
+
+  const runMenuAction = useCallback(
+    (key) => {
+      if (isConfirmingRef.current) return;
+      isConfirmingRef.current = true;
+      playSfx("/seleccionar.mp3");
+      setConfirmPunchKey(key);
+      setConfirmBurstKey((k) => k + 1);
+
+      if (confirmTimerRef.current) clearTimeout(confirmTimerRef.current);
+      confirmTimerRef.current = setTimeout(() => {
+        confirmTimerRef.current = null;
+        isConfirmingRef.current = false;
+        setConfirmPunchKey(null);
+        if (key === "cv") {
+          window.open("/Currículum Vitae (Emiliano Pereyra).pdf", "_blank");
+        } else {
+          onSelect(key);
+        }
+      }, CONFIRM_ACTION_MS);
+    },
+    [onSelect]
+  );
+
+  useEffect(() => {
+    return () => {
+      if (confirmTimerRef.current) clearTimeout(confirmTimerRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "ArrowDown") {
+        playSfx("/mover.mp3", 0.45);
         setSelected((prev) => (prev + 1) % options.length);
       } else if (e.key === "ArrowUp") {
+        playSfx("/mover.mp3", 0.45);
         setSelected((prev) => (prev - 1 + options.length) % options.length);
       } else if (e.key === "Enter") {
-        if (options[selected].key === "cv") {
-          window.open("/Curriculum Vitae (Emiliano Pereyra).pdf", "_blank");
-        } else {
-          onSelect(options[selected].key);
-        }
+        runMenuAction(options[selected].key);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selected, options, onSelect]);
+  }, [selected, options, runMenuAction]);
 
-  // Soporte para tap/click en móvil y desktop
   const handleOptionSelect = (key) => {
-    if (key === "cv") {
-      window.open("/Currículum Vitae (Emiliano Pereyra).pdf", "_blank");
-    } else {
-      onSelect(key);
-    }
+    runMenuAction(key);
   };
 
   return (
@@ -168,6 +341,26 @@ export default function MenuScreen({ onSelect }) {
         }}
       />
       {/* Fin nubes animadas */}
+      {confirmBurstKey > 0 ? (
+        <>
+          <motion.div
+            key={`confirm-flash-${confirmBurstKey}`}
+            initial={{ opacity: 0.28 }}
+            animate={{ opacity: 0 }}
+            transition={{ duration: 0.42, ease: "easeOut" }}
+            style={{
+              position: "fixed",
+              inset: 0,
+              background:
+                "radial-gradient(circle at 50% 40%, rgba(0,224,255,0.45), rgba(255,215,0,0.12) 35%, transparent 58%)",
+              pointerEvents: "none",
+              zIndex: 19,
+            }}
+            aria-hidden
+          />
+          <ConfirmPixelExplosion key={confirmBurstKey} isMobile={isMobile} />
+        </>
+      ) : null}
       <div
         style={{
           marginBottom: isMobile ? "14px" : "18px",
@@ -198,11 +391,35 @@ export default function MenuScreen({ onSelect }) {
           alignItems: "center",
           gap: isMobile ? "10px" : "16px",
           marginTop: isMobile ? "30px" : "60px",
+          position: "relative",
+          zIndex: 4,
         }}
       >
         {options.map((opt, idx) => (
-          <div
+          <motion.div
             key={opt.key}
+            animate={
+              confirmPunchKey === opt.key
+                ? { scale: [1, 1.22, 1.05, 1], y: [0, -10, -2, 0] }
+                : idx === selected
+                  ? { scale: [1, 1.07, 1], y: [0, -5, 0] }
+                  : { scale: 1, y: 0 }
+            }
+            transition={
+              confirmPunchKey === opt.key
+                ? {
+                    duration: 0.48,
+                    times: [0, 0.28, 0.65, 1],
+                    ease: [0.34, 1.45, 0.64, 1],
+                  }
+                : idx === selected
+                  ? {
+                      duration: 0.38,
+                      times: [0, 0.42, 1],
+                      ease: [0.34, 1.2, 0.64, 1],
+                    }
+                  : { duration: 0.14, ease: "easeOut" }
+            }
             style={{
               fontFamily: "'Press Start 2P', cursive",
               fontSize: isMobile ? "12px" : "16px",
@@ -227,7 +444,7 @@ export default function MenuScreen({ onSelect }) {
               position: "relative",
               outline: "none",
               imageRendering: "pixelated",
-              cursor: "pointer", 
+              cursor: "pointer",
               userSelect: "none",
               transition: "background 0.2s, color 0.2s",
             }}
@@ -235,6 +452,9 @@ export default function MenuScreen({ onSelect }) {
             onClick={() => handleOptionSelect(opt.key)}
             onTouchStart={() => handleOptionSelect(opt.key)}
           >
+            {idx === selected ? (
+              <PixelBurst key={burstKey} isMobile={isMobile} />
+            ) : null}
             <span
               style={{
                 display: "inline-block",
@@ -250,7 +470,7 @@ export default function MenuScreen({ onSelect }) {
               {idx === selected ? "►" : ""}
             </span>
             {opt.label}
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>
