@@ -5,6 +5,11 @@ import { useIsMobile } from "../hooks/useIsMobile";
 const PIXEL_BURST_COLORS = ["#00e0ff", "#ffd700", "#ffffff", "#b8ffc8"];
 const CONFIRM_ACTION_MS = 420;
 
+/** Archivo en /public — nombre real del PDF (sin tilde en "Curriculum"). */
+const CV_PUBLIC_URL = encodeURI(
+  `${import.meta.env.BASE_URL}Curriculum Vitae (Emiliano Pereyra).pdf`
+);
+
 function playSfx(url, volume = 0.55) {
   const a = new Audio(url);
   a.volume = volume;
@@ -145,7 +150,7 @@ export default function MenuScreen({ onSelect }) {
     { label: "Sobre mí", key: "sobreMi" },
     { label: "Proyectos", key: "proyectos" },
     { label: "Contacto", key: "contacto" },
-    { label: "Descargar CV", key: "cv" },
+    { label: "Ver Currículum", key: "cv" },
   ];
 
   const isMobile = useIsMobile();
@@ -178,7 +183,7 @@ export default function MenuScreen({ onSelect }) {
         isConfirmingRef.current = false;
         setConfirmPunchKey(null);
         if (key === "cv") {
-          window.open("/Currículum Vitae (Emiliano Pereyra).pdf", "_blank");
+          window.open(CV_PUBLIC_URL, "_blank", "noopener,noreferrer");
         } else {
           onSelect(key);
         }
