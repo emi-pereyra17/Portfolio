@@ -238,37 +238,8 @@ export default function StartScreen({
         }}
       />
       <h1 style={{ ...baseStyles.h1, zIndex: 2, userSelect: "none", }}>Emiliano Pereyra</h1>
-      <h2
-        style={{
-          ...baseStyles.h2,
-          zIndex: 2,
-          userSelect: "none",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: isMobile ? "6px" : "10px",
-        }}
-      >
-        <span>Integrador de IA y automatizaciones</span>
-        <span
-          style={{
-            fontSize: isMobile ? "12px" : "16px",
-            color: "#ffffff",
-            textShadow: "1px 1px 0 #222, 0 0 6px #00e0ff",
-            lineHeight: 1.2,
-          }}
-        >
-          &
-        </span>
-        <span
-          style={{
-            fontSize: isMobile ? "11px" : "15px",
-            color: "#ffd700",
-            textShadow: "1px 1px 0 #222, 0 0 6px #fff",
-          }}
-        >
-          Desarrollador full stack
-        </span>
+      <h2 style={{ ...baseStyles.h2, zIndex: 2, userSelect: "none" }}>
+        Full Stack Developer & AI/Automations Integrator
       </h2>
       <motion.button
         animate={{ opacity: [1, 0.5, 1] }}
