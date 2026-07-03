@@ -211,7 +211,7 @@ export default function ProyectosScreen({ onBackToMenu }) {
       key: "sistema-servicios",
       nombre:
         "Sistema Inteligente de Automatización y Control de Asistencia en Tiempo Real",
-      imagen: "/logomascui.png",
+      imagen: "/cuidados.avif",
       descripcion: (
         <>
           <p
