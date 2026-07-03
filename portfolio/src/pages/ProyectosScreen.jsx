@@ -207,6 +207,120 @@ export default function ProyectosScreen({ onBackToMenu }) {
       repo: null,
       imagenes: ["/BardoCompetencia.mp4"],
     },
+    {
+      key: "sistema-servicios",
+      nombre:
+        "Sistema Inteligente de Automatización y Control de Asistencia en Tiempo Real",
+      imagen: "/logomascui.png",
+      descripcion: (
+        <>
+          <p
+            style={{
+              marginBottom: 16,
+              fontSize: isMobile ? 17 : 22,
+              lineHeight: 1.7,
+              color: "#e0e0e0",
+              textShadow: "1px 1px 2px #111, 0 0 6px #00e0ff44",
+              fontFamily: "'Segoe UI', 'Press Start 2P', cursive",
+              letterSpacing: "0.5px",
+            }}
+          >
+            Desarrollé una solución integral de software y automatización para{" "}
+            <b>Más Cuidados</b> con el objetivo de optimizar la coordinación y el
+            seguimiento de asistencia de los cuidadores en 5 sucursales (Rosario,
+            Paraná, Santa Fe, Buenos Aires y Córdoba). El sistema automatiza la
+            comunicación masiva a través de WhatsApp y centraliza los datos en un
+            panel administrativo para el equipo de coordinación.
+          </p>
+          <p
+            style={{
+              marginBottom: 16,
+              fontSize: isMobile ? 17 : 22,
+              lineHeight: 1.7,
+              color: "#e0e0e0",
+              textShadow: "1px 1px 2px #111, 0 0 6px #00e0ff44",
+              fontFamily: "'Segoe UI', 'Press Start 2P', cursive",
+              letterSpacing: "0.5px",
+            }}
+          >
+            🎯 <b>El desafío:</b> La empresa necesitaba reducir las ausencias
+            imprevistas y tener visibilidad en tiempo real sobre si los
+            cuidadores llegarían a tiempo a sus turnos, eliminando la gestión
+            manual por parte de las coordinadoras.
+          </p>
+          <p
+            style={{
+              marginBottom: 16,
+              fontSize: isMobile ? 17 : 22,
+              lineHeight: 1.7,
+              color: "#e0e0e0",
+              textShadow: "1px 1px 2px #111, 0 0 6px #00e0ff44",
+              fontFamily: "'Segoe UI', 'Press Start 2P', cursive",
+              letterSpacing: "0.5px",
+            }}
+          >
+            ⚙️ <b>La solución y arquitectura</b>
+          </p>
+          <ul
+            style={{
+              marginBottom: 16,
+              textAlign: "left",
+              fontSize: isMobile ? 16 : 19,
+              color: "#c0eaff",
+              lineHeight: 1.7,
+              background: "rgba(0,224,255,0.06)",
+              borderRadius: "8px",
+              padding: isMobile ? "10px 12px" : "16px 28px",
+              boxShadow: "0 0 8px #00e0ff33",
+              textShadow: "1px 1px 2px #111, 0 0 4px #00e0ff22",
+              fontFamily: "'Segoe UI', 'Press Start 2P', cursive",
+            }}
+          >
+            <li>
+              <b>Automatización de mensajería (n8n y Meta API):</b> Flujo
+              automatizado que envía recordatorios interactivos (con botones de
+              confirmación) una hora antes del turno. Incluye lógica de reintentos
+              escalonados (alertas cada 15 minutos) que notifica a la coordinadora
+              si el cuidador no responde o cancela.
+            </li>
+            <li>
+              <b>Seguimiento de tránsito:</b> Cinco minutos antes del turno, el
+              sistema vuelve a contactar al prestador para registrar si está en
+              camino o si ya llegó, calculando automáticamente su puntualidad (a
+              horario o tarde).
+            </li>
+            <li>
+              <b>Infraestructura y backend (FastAPI y PostgreSQL):</b> Instancia
+              de n8n y base de datos PostgreSQL en un VPS. API REST con Python
+              (FastAPI) para consumir de forma segura los registros y enviarlos
+              al frontend.
+            </li>
+            <li>
+              <b>Panel administrativo (Next.js):</b> Dashboard seguro con login y
+              roles por área, deployado en Netlify, que permite filtrar y auditar
+              el historial de cada turno y el estado de asistencia de los
+              cuidadores en tiempo real.
+            </li>
+          </ul>
+          <p
+            style={{
+              marginBottom: 0,
+              fontSize: isMobile ? 15 : 18,
+              lineHeight: 1.6,
+              color: "#ffd700",
+              textShadow: "1px 1px 2px #111, 0 0 4px #ffd70044",
+              fontFamily: "'Segoe UI', 'Press Start 2P', cursive",
+              fontStyle: "italic",
+            }}
+          >
+            ⚠️ <b>Nota:</b> Por políticas de confidencialidad del cliente, el
+            código fuente no puede ser compartido.
+          </p>
+        </>
+      ),
+      repo: null,
+      imagenes: ["/SistemaServicios.mp4"],
+    },
   ];
 
   const proyectosOrdenados = [...proyectos].reverse();
