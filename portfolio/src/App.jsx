@@ -51,8 +51,18 @@ export default function App() {
   const bgmTrackRef = useRef(0);
   const musicOnRef = useRef(musicOn);
   const startDuckTimerRef = useRef(null);
+  const videoDuckRef = useRef(false);
 
   musicOnRef.current = musicOn;
+
+  const syncBgmVolume = useCallback(() => {
+    const el = bgmRef.current;
+    if (!el || !musicOnRef.current) return;
+    el.volume =
+      videoDuckRef.current || startDuckTimerRef.current
+        ? BGM_DUCK_VOLUME
+        : BGM_BASE_VOLUME;
+  }, []);
 
   useEffect(() => {
     const el = bgmRef.current;
@@ -85,12 +95,40 @@ export default function App() {
     const el = bgmRef.current;
     if (!el || !musicOnRef.current) return Promise.resolve();
     el.muted = false;
-    if (!startDuckTimerRef.current) {
-      el.volume = BGM_BASE_VOLUME;
-    }
+    syncBgmVolume();
     const p = el.play();
     return p ?? Promise.resolve();
-  }, []);
+  }, [syncBgmVolume]);
+
+  useEffect(() => {
+    const applyVideoDuck = () => {
+      videoDuckRef.current = Array.from(document.querySelectorAll("video")).some(
+        (video) =>
+          !video.paused && !video.ended && !video.muted && video.volume > 0
+      );
+      syncBgmVolume();
+    };
+
+    const onMediaEvent = (event) => {
+      if (event.target?.tagName !== "VIDEO") return;
+      applyVideoDuck();
+    };
+
+    const mediaEvents = ["play", "pause", "ended", "volumechange", "emptied"];
+    for (const name of mediaEvents) {
+      document.addEventListener(name, onMediaEvent, true);
+    }
+
+    const observer = new MutationObserver(applyVideoDuck);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      for (const name of mediaEvents) {
+        document.removeEventListener(name, onMediaEvent, true);
+      }
+      observer.disconnect();
+    };
+  }, [syncBgmVolume]);
 
   // Autoplay suele fallar hasta un gesto; play() es seguro si ya suena (resuelve al instante).
   useEffect(() => {
@@ -127,10 +165,9 @@ export default function App() {
     el.volume = BGM_DUCK_VOLUME;
     startDuckTimerRef.current = setTimeout(() => {
       startDuckTimerRef.current = null;
-      const a = bgmRef.current;
-      if (a) a.volume = BGM_BASE_VOLUME;
+      syncBgmVolume();
     }, durationMs);
-  }, []);
+  }, [syncBgmVolume]);
 
   useEffect(() => {
     return () => {
@@ -147,7 +184,10 @@ export default function App() {
       if (el) {
         el.muted = !next;
         if (next) {
-          el.volume = BGM_BASE_VOLUME;
+          el.volume =
+            videoDuckRef.current || startDuckTimerRef.current
+              ? BGM_DUCK_VOLUME
+              : BGM_BASE_VOLUME;
           el.play().catch(() => {});
         }
       }

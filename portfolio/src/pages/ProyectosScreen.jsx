@@ -209,9 +209,145 @@ export default function ProyectosScreen({ onBackToMenu }) {
     },
     {
       key: "sistema-servicios",
-      nombre:
-        "Sistema Inteligente de Automatización y Control de Asistencia en Tiempo Real",
+      nombre: "Sistema de control de asistencia en tiempo real",
       imagen: "/cuidados.avif",
+      descripcion: (
+        <>
+          <p
+            style={{
+              marginBottom: 16,
+              fontSize: isMobile ? 17 : 22,
+              lineHeight: 1.7,
+              color: "#ffd700",
+              textShadow: "1px 1px 2px #111, 0 0 6px #00e0ff44",
+              fontFamily: "'Segoe UI', 'Press Start 2P', cursive",
+              letterSpacing: "0.5px",
+            }}
+          >
+            <b>Plataforma de gestión y seguimiento de servicios de cuidado</b>
+          </p>
+          <p
+            style={{
+              marginBottom: 16,
+              fontSize: isMobile ? 17 : 22,
+              lineHeight: 1.7,
+              color: "#e0e0e0",
+              textShadow: "1px 1px 2px #111, 0 0 6px #00e0ff44",
+              fontFamily: "'Segoe UI', 'Press Start 2P', cursive",
+              letterSpacing: "0.5px",
+            }}
+          >
+            Desarrollé una solución integral para gestionar turnos de cuidadores,
+            registrar asistencias y supervisar la prestación de servicios en
+            múltiples sucursales.
+          </p>
+          <p
+            style={{
+              marginBottom: 16,
+              fontSize: isMobile ? 17 : 22,
+              lineHeight: 1.7,
+              color: "#e0e0e0",
+              textShadow: "1px 1px 2px #111, 0 0 6px #00e0ff44",
+              fontFamily: "'Segoe UI', 'Press Start 2P', cursive",
+              letterSpacing: "0.5px",
+            }}
+          >
+            El sistema integra una API desarrollada con <b>FastAPI</b>,
+            automatizaciones con <b>n8n</b>, una base de datos y una aplicación
+            móvil para que los cuidadores puedan gestionar sus turnos y reportar
+            el estado de cada servicio.
+          </p>
+          <p
+            style={{
+              marginBottom: 16,
+              fontSize: isMobile ? 17 : 22,
+              lineHeight: 1.7,
+              color: "#e0e0e0",
+              textShadow: "1px 1px 2px #111, 0 0 6px #00e0ff44",
+              fontFamily: "'Segoe UI', 'Press Start 2P', cursive",
+              letterSpacing: "0.5px",
+            }}
+          >
+            Entre sus funcionalidades se incluyen el inicio de sesión, la
+            visualización de turnos, el registro de estados como “en camino”, la
+            validación de proximidad mediante geolocalización y la generación de
+            alertas ante determinadas situaciones, como la salida de la zona del
+            domicilio o la falta de respuesta.
+          </p>
+          <p
+            style={{
+              marginBottom: 16,
+              fontSize: isMobile ? 17 : 22,
+              lineHeight: 1.7,
+              color: "#e0e0e0",
+              textShadow: "1px 1px 2px #111, 0 0 6px #00e0ff44",
+              fontFamily: "'Segoe UI', 'Press Start 2P', cursive",
+              letterSpacing: "0.5px",
+            }}
+          >
+            Al finalizar cada turno, el cuidador puede completar un informe sobre
+            el estado general, la higiene y otros aspectos relevantes del
+            servicio. Estos registros se centralizan en un panel web que permite
+            consultar la información y descargar reportes en PDF.
+          </p>
+          <p
+            style={{
+              marginBottom: 16,
+              fontSize: isMobile ? 17 : 22,
+              lineHeight: 1.7,
+              color: "#e0e0e0",
+              textShadow: "1px 1px 2px #111, 0 0 6px #00e0ff44",
+              fontFamily: "'Segoe UI', 'Press Start 2P', cursive",
+              letterSpacing: "0.5px",
+            }}
+          >
+            La solución también incorpora funciones de inteligencia artificial
+            para corregir errores de escritura en los comentarios de los
+            informes.
+          </p>
+          <p
+            style={{
+              marginBottom: 16,
+              fontSize: isMobile ? 17 : 22,
+              lineHeight: 1.7,
+              color: "#e0e0e0",
+              textShadow: "1px 1px 2px #111, 0 0 6px #00e0ff44",
+              fontFamily: "'Segoe UI', 'Press Start 2P', cursive",
+              letterSpacing: "0.5px",
+            }}
+          >
+            El proyecto reemplazó parte de un flujo de confirmaciones por
+            WhatsApp que dejó de ser viable, trasladando el proceso a una
+            aplicación móvil propia.
+          </p>
+          <p
+            style={{
+              marginBottom: 0,
+              fontSize: isMobile ? 16 : 19,
+              lineHeight: 1.7,
+              color: "#c0eaff",
+              textShadow: "1px 1px 2px #111, 0 0 4px #00e0ff22",
+              fontFamily: "'Segoe UI', 'Press Start 2P', cursive",
+              letterSpacing: "0.5px",
+              background: "rgba(0,224,255,0.06)",
+              borderRadius: "8px",
+              padding: isMobile ? "10px 12px" : "16px 28px",
+              boxShadow: "0 0 8px #00e0ff33",
+            }}
+          >
+            <b>Tecnologías:</b> Python, FastAPI, n8n, Supabase, PostgreSQL, Row
+            Level Security (RLS), Edge Functions, inteligencia artificial,
+            geolocalización y desarrollo móvil multiplataforma.
+          </p>
+        </>
+      ),
+      repo: null,
+      imagenes: ["/ControlIngresosVideo.mp4"],
+    },
+    {
+      key: "plataforma-datos-ia",
+      nombre: "Plataforma interna de datos y asistentes de IA",
+      imagen: "/plataforma-datos-ia.png",
       descripcion: (
         <>
           <p
@@ -225,12 +361,10 @@ export default function ProyectosScreen({ onBackToMenu }) {
               letterSpacing: "0.5px",
             }}
           >
-            Desarrollé una solución integral de software y automatización para{" "}
-            <b>Más Cuidados</b> con el objetivo de optimizar la coordinación y el
-            seguimiento de asistencia de los cuidadores en 5 sucursales (Rosario,
-            Paraná, Santa Fe, Buenos Aires y Córdoba). El sistema automatiza la
-            comunicación masiva a través de WhatsApp y centraliza los datos en un
-            panel administrativo para el equipo de coordinación.
+            Desarrollé una plataforma interna que centraliza información
+            operativa proveniente de múltiples fuentes y permite consultarla
+            mediante asistentes de inteligencia artificial especializados por
+            área.
           </p>
           <p
             style={{
@@ -243,10 +377,11 @@ export default function ProyectosScreen({ onBackToMenu }) {
               letterSpacing: "0.5px",
             }}
           >
-            🎯 <b>El desafío:</b> La empresa necesitaba reducir las ausencias
-            imprevistas y tener visibilidad en tiempo real sobre si los
-            cuidadores llegarían a tiempo a sus turnos, eliminando la gestión
-            manual por parte de las coordinadoras.
+            La solución utiliza <b>n8n</b> para automatizar la extracción,
+            transformación y limpieza de datos, que luego se almacenan en{" "}
+            <b>PostgreSQL</b>. Los asistentes de IA interpretan preguntas en
+            lenguaje natural y utilizan herramientas de consulta SQL para
+            recuperar información relevante de la base de datos.
           </p>
           <p
             style={{
@@ -259,67 +394,48 @@ export default function ProyectosScreen({ onBackToMenu }) {
               letterSpacing: "0.5px",
             }}
           >
-            ⚙️ <b>La solución y arquitectura</b>
+            También implementé una solución de{" "}
+            <b>RAG (Retrieval-Augmented Generation)</b> para consultar
+            documentación interna, permitiendo combinar respuestas basadas en
+            datos estructurados con búsquedas sobre documentos.
           </p>
-          <ul
+          <p
             style={{
               marginBottom: 16,
-              textAlign: "left",
+              fontSize: isMobile ? 17 : 22,
+              lineHeight: 1.7,
+              color: "#e0e0e0",
+              textShadow: "1px 1px 2px #111, 0 0 6px #00e0ff44",
+              fontFamily: "'Segoe UI', 'Press Start 2P', cursive",
+              letterSpacing: "0.5px",
+            }}
+          >
+            La plataforma se encuentra en uso en distintas áreas de la empresa
+            y está diseñada para facilitar el acceso a la información, reducir
+            tareas manuales y agilizar la toma de decisiones.
+          </p>
+          <p
+            style={{
+              marginBottom: 0,
               fontSize: isMobile ? 16 : 19,
-              color: "#c0eaff",
               lineHeight: 1.7,
+              color: "#c0eaff",
+              textShadow: "1px 1px 2px #111, 0 0 4px #00e0ff22",
+              fontFamily: "'Segoe UI', 'Press Start 2P', cursive",
+              letterSpacing: "0.5px",
               background: "rgba(0,224,255,0.06)",
               borderRadius: "8px",
               padding: isMobile ? "10px 12px" : "16px 28px",
               boxShadow: "0 0 8px #00e0ff33",
-              textShadow: "1px 1px 2px #111, 0 0 4px #00e0ff22",
-              fontFamily: "'Segoe UI', 'Press Start 2P', cursive",
             }}
           >
-            <li>
-              <b>Automatización de mensajería (n8n y Meta API):</b> Flujo
-              automatizado que envía recordatorios interactivos (con botones de
-              confirmación) una hora antes del turno. Incluye lógica de reintentos
-              escalonados (alertas cada 15 minutos) que notifica a la coordinadora
-              si el cuidador no responde o cancela.
-            </li>
-            <li>
-              <b>Seguimiento de tránsito:</b> Cinco minutos antes del turno, el
-              sistema vuelve a contactar al prestador para registrar si está en
-              camino o si ya llegó, calculando automáticamente su puntualidad (a
-              horario o tarde).
-            </li>
-            <li>
-              <b>Infraestructura y backend (FastAPI y PostgreSQL):</b> Instancia
-              de n8n y base de datos PostgreSQL en un VPS. API REST con Python
-              (FastAPI) para consumir de forma segura los registros y enviarlos
-              al frontend.
-            </li>
-            <li>
-              <b>Panel administrativo (Next.js):</b> Dashboard seguro con login y
-              roles por área, deployado en Netlify, que permite filtrar y auditar
-              el historial de cada turno y el estado de asistencia de los
-              cuidadores en tiempo real.
-            </li>
-          </ul>
-          <p
-            style={{
-              marginBottom: 0,
-              fontSize: isMobile ? 15 : 18,
-              lineHeight: 1.6,
-              color: "#ffd700",
-              textShadow: "1px 1px 2px #111, 0 0 4px #ffd70044",
-              fontFamily: "'Segoe UI', 'Press Start 2P', cursive",
-              fontStyle: "italic",
-            }}
-          >
-            ⚠️ <b>Nota:</b> Por políticas de confidencialidad del cliente, el
-            código fuente no puede ser compartido.
+            <b>Tecnologías:</b> Python, PostgreSQL, n8n, agentes de IA,
+            generación de SQL, RAG, AnythingLLM y APIs.
           </p>
         </>
       ),
       repo: null,
-      imagenes: ["/SistemaServicios.mp4"],
+      imagenes: ["/ChatOperativoVideo.mp4"],
     },
   ];
 
@@ -463,6 +579,7 @@ export default function ProyectosScreen({ onBackToMenu }) {
                     src={proy.imagen}
                     muted
                     loop
+                    autoPlay
                     playsInline
                     preload="metadata"
                     style={{
