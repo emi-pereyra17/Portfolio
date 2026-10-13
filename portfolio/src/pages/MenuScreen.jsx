@@ -5,9 +5,9 @@ import { useIsMobile } from "../hooks/useIsMobile";
 const PIXEL_BURST_COLORS = ["#00e0ff", "#ffd700", "#ffffff", "#b8ffc8"];
 const CONFIRM_ACTION_MS = 420;
 
-/** Archivo en /public — nombre real del PDF (sin tilde en "Curriculum"). */
+/** Servido desde public/ en la raíz del sitio (mismo patrón que /fondoMenu.png). */
 const CV_PUBLIC_URL = encodeURI(
-  `${import.meta.env.BASE_URL}Curriculum Vitae (Emiliano Pereyra).pdf`
+  "/Curriculum Vitae (Emiliano Pereyra).pdf"
 );
 
 function playSfx(url, volume = 0.55) {
