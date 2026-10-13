@@ -169,29 +169,23 @@ export default function SobreMiScreen({ onBackToMenu }) {
             color: "#e8f2ff",
           }}
         >
-          ¡Hola! Soy Técnico Universitario en Programación graduado en la
-          Universidad Tecnológica Nacional (Rosario). Mi enfoque principal es el
-          desarrollo Full Stack, pero lo que realmente me motiva es la integración
-          de IA para resolver problemas reales.
+          ¡Hola! Soy Técnico Universitario en Programación de la Universidad
+          Tecnológica Nacional (Rosario). Desarrollo soluciones de inteligencia
+          artificial, automatización de procesos y aplicaciones backend, integrando
+          modelos de lenguaje, bases de datos y APIs para resolver problemas
+          operativos.
           <br />
           <br />
-          Me muevo cómodo entre el desarrollo tradicional y las nuevas herramientas
-          de automatización. Mi stack combina .NET (C#), Python (FastAPI) y
-          React/Next.js, junto con implementación de modelos LLM y uso de n8n para
-          construir flujos automatizados.
+          Trabajo de punta a punta: desde la limpieza y el análisis de datos hasta
+          paneles, APIs y flujos automáticos. Armo asistentes que interpretan
+          preguntas en lenguaje natural y consultan información o documentación, y
+          también pipelines para extraer datos de documentos y anticipar tendencias
+          a partir de históricos.
           <br />
           <br />
-          En datos trabajo con SQL Server, MySQL y análisis con Pandas /
-          Scikit-learn. Últimamente participé en proyectos de pasantías en
-          Argentina y España, desde sistemas de inteligencia de mercado con
-          predicción de precios hasta agentes de voz para gestión de turnos en
-          inglés.
-          <br />
-          <br />
-          Hablo inglés (B2), por lo que puedo comunicarme con equipos
-          internacionales sin problema. Creo en el aprendizaje asistido por IA y
-          en la adaptabilidad como claves para resolver desafíos complejos, hoy y a
-          futuro.
+          Me apoyo en Python, FastAPI, React y Next.js, con despliegues en Docker
+          sobre Linux. Hablo inglés (B2) y puedo trabajar con equipos y
+          documentación técnica en ese idioma.
         </p>
         <div
           style={{
@@ -204,19 +198,19 @@ export default function SobreMiScreen({ onBackToMenu }) {
           {[
             {
               title: "Backend & Frontend",
-              text: ".NET (C#), Python (FastAPI), React y Next.js",
+              text: "Python, FastAPI, React, Next.js y APIs REST",
             },
             {
               title: "IA & Automatización",
-              text: "LLMs aplicados y orquestación de flujos con n8n",
+              text: "LLMs, RAG, SQL desde lenguaje natural y flujos con n8n",
             },
             {
               title: "Datos",
-              text: "SQL Server, MySQL, Pandas y Scikit-learn",
+              text: "PostgreSQL, Supabase, MySQL, Pandas y Scikit-learn",
             },
             {
-              title: "Metodología",
-              text: "Enfoque end-to-end, iterativo y orientado a impacto real",
+              title: "Enfoque",
+              text: "Soluciones de punta a punta, de los datos a la interfaz",
             },
           ].map((item) => (
             <div
@@ -265,20 +259,20 @@ export default function SobreMiScreen({ onBackToMenu }) {
           }}
         >
           {[
-            "C#",
-            ".NET",
             "Python",
             "FastAPI",
-            "React",
-            "Next.js",
+            "PostgreSQL",
+            "Supabase",
             "n8n",
             "LLMs",
-            "SQL Server",
-            "MySQL",
+            "RAG",
+            "React",
+            "Next.js",
+            "Docker",
             "Pandas",
             "Scikit-learn",
-            "Docker",
-            "RabbitMQ",
+            "MySQL",
+            "JavaScript",
           ].map((tag) => (
             <span
               key={tag}

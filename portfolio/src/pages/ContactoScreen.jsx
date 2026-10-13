@@ -14,10 +14,10 @@ export default function ContactoScreen({ onBackToMenu }) {
     setEnviando(true);
     try {
       await emailjs.sendForm(
-        "service_y7u5aaf", // Tu Service ID
-        "template_n02i32r", // Tu Template ID
+        "service_y7u5aaf",
+        "template_n02i32r",
         formRef.current,
-        "ARPqUYluLOnBKKQY9" // Tu Public Key
+        "ARPqUYluLOnBKKQY9"
       );
       setEnviado(true);
     } catch (error) {

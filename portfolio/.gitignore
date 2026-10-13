@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Artefactos temporales (p. ej. frames extraídos de videos)
+tmp-frames/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
