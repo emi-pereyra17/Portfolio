@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# SPA: rutas de la app; Netlify sigue sirviendo archivos estáticos del build con prioridad.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
